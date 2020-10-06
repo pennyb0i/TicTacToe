@@ -50,8 +50,8 @@ public class GameBoard implements IGameModel {
      * @return int id of winner, or -1 if draw.
      */
     public int getWinner() {
-        if(checkDraw()) return -1;
-        return player;
+        if(!checkDraw()) return player;
+        return -1;
     }
 
     /**
@@ -69,9 +69,11 @@ public class GameBoard implements IGameModel {
             }
         }
     }
+
     private boolean checkRow(int row){
         return board[row][1] != 0 && board[row][1] == board[row][0] && board[row][1] == board[row][2];
     }
+
     private boolean checkCol(int col){
         return board[1][col] != 0 && board[1][col] == board[0][col] && board[1][col] == board[2][col];
     }
@@ -81,12 +83,49 @@ public class GameBoard implements IGameModel {
                 || board[1][1] == board[0][2] && board[1][1] == board[2][0]);
     }
 
-    private boolean checkDraw() {
+    private int checkEmptySpots() {
+        int empty = 0;
         for (int r = 0; r <= 2; r++) {
             for (int c = 0; c <= 2; c++) {
-                if (board[r][c] == 0) return false;
+                if (board[r][c] == 0) empty++;
             }
         }
-        return true;
+        return empty;
+    }
+    private boolean checkDraw(){
+        if(checkEmptySpots() == 2 || checkEmptySpots() == 1){
+
+            for (int r = 0; r <= 2; r++) {
+                for (int c = 0; c <= 2; c++) {
+
+                    if (board[r][c] == 0){
+                        return !checkPotentialWin(r,c);
+                    }
+                }
+            }
+        }
+        if (checkEmptySpots() == 0) return true;
+        return false;
+    }
+    private boolean checkPotentialWin(int row,int col) {
+        if(checkPotentialRow(row) || checkPotentialCol(col) || checkPotentialDiagonal()) return true;
+        return false;
+    }
+    private boolean checkPotentialRow(int row){
+        return board[row][1] == board[row][0] && board[row][2] == 0
+                || board[row][1] == board[row][2] && board[row][0] == 0
+                || board[row][0] == board[row][2] && board[row][1] == 0;
+    }
+    private boolean checkPotentialCol(int col){
+        return board[1][col] == board[0][col] && board[2][col] == 0
+                || board[1][col] == board[2][col] && board[0][col] == 0
+                || board[0][col] == board[2][col] && board[1][col] == 0;
+    }
+    private boolean checkPotentialDiagonal(){
+        return board[1][1] == board[0][0] && board[2][2] == 0
+                || board[2][2] == board[1][1] && board[0][0] == 0
+                || board[2][0] == board[1][1] && board[0][2] == 0
+                || board[0][2] == board[1][1] && board[2][0] == 0
+                || (board[0][0] == board[2][2] || board[0][2] == board[2][0]) && board[1][1] == 0;
     }
 }
