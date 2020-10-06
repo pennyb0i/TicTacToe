@@ -35,6 +35,9 @@ public class TicTacViewController implements Initializable
     
     private static final String TXT_PLAYER = "Player: ";
     private IGameModel game;
+    boolean stopGame =false; // if its true you cant add new signs
+    // and then you have to refresh it when making a new game
+
 
     @FXML
     private void handleButtonAction(ActionEvent event)
@@ -46,15 +49,18 @@ public class TicTacViewController implements Initializable
             int r = (row == null) ? 0 : row;
             int c = (col == null) ? 0 : col;
             int player = game.getNextPlayer();
-            if (game.play(c, r))
+            if (game.play(c, r) )
             {
-                Button btn = (Button) event.getSource();
-                String xOrO = player == 1 ? "X" : "O";
-                btn.setText(xOrO);
+                if(stopGame==false) {
+                    Button btn = (Button) event.getSource();
+                    String xOrO = player == 1 ? "X" : "O";
+                    btn.setText(xOrO);
+                }
                 if (game.isGameOver())
                 {
                     int winner = game.getWinner();
                     displayWinner(winner);
+                    stopGame = true;
                 }
                 else
                 {
@@ -62,6 +68,16 @@ public class TicTacViewController implements Initializable
                     setPlayer();
                 }
             }
+            /*if(game.isGameOver()){
+                Button btn = (Button) event.getSource();
+                String xOrO = player == 1 ? "X" : "O";
+                btn.setText(xOrO);
+            int winner = game.getWinner();
+            displayWinner(winner);
+
+             */
+
+
         } catch (Exception e)
         {
             System.out.println(e.getMessage());
@@ -81,6 +97,7 @@ public class TicTacViewController implements Initializable
     {
         game = new GameBoard();
         setPlayer();
+        stopGame=false;
     }
 
     private void setPlayer()
@@ -104,6 +121,7 @@ public class TicTacViewController implements Initializable
             Button btn = (Button) n;
             btn.setText("");
         }
+        stopGame=false;
     }
 
 }

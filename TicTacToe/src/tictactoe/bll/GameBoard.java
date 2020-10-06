@@ -2,6 +2,8 @@ package tictactoe.bll;
 
 public class GameBoard implements IGameModel {
     private int[][] board = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+    // each smaller array is a row
+
     private int player = 1;
 
     public void setPlayer(int id) {
