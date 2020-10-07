@@ -1,10 +1,10 @@
 package tictactoe.bll;
 
 public class GameBoard implements IGameModel {
-    private int[][] board = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+    public int[][] board = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     // each smaller array is a row
 
-    private int player = 1;
+    public int player = 1; // this same for AI
 
     public void setPlayer(int id) {
         player = id;
@@ -30,7 +30,8 @@ public class GameBoard implements IGameModel {
             return false;
         }
         if (board[row][col] == 0) {
-            board[row][col] = player;
+            board[row][col] = player; // for AI its 2. it works in this same way
+            // as it works for multiplayer
             return true;
         }
         return false;

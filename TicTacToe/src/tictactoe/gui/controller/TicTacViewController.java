@@ -5,6 +5,8 @@
  */
 package tictactoe.gui.controller;
 
+import java.util.Random;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -16,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import tictactoe.bll.GameBoard;
 import tictactoe.bll.IGameModel;
+import tictactoe.gui.views.StartingScreen;
 
 /**
  *
@@ -24,8 +27,28 @@ import tictactoe.bll.IGameModel;
 public class TicTacViewController implements Initializable
 {
 
+
     @FXML
     private Label lblPlayer;
+
+    @FXML
+    private Button btn1;
+    @FXML
+    private Button btn2;
+    @FXML
+    private Button btn3;
+    @FXML
+    private Button btn4;
+    @FXML
+    private Button btn5;
+    @FXML
+    private Button btn6;
+    @FXML
+    private Button btn7;
+    @FXML
+    private Button btn8;
+    @FXML
+    private Button btn9;
 
     @FXML
     private Button btnNewGame;
@@ -41,46 +64,98 @@ public class TicTacViewController implements Initializable
 
     @FXML
     private void handleButtonAction(ActionEvent event)
-    {
-        try
-        {
+    { StartingScreen startingScreen = new StartingScreen();
+
+    if(startingScreen.chosenMode() == 1) {
+        try {
             Integer row = GridPane.getRowIndex((Node) event.getSource());
             Integer col = GridPane.getColumnIndex((Node) event.getSource());
             int r = (row == null) ? 0 : row;
             int c = (col == null) ? 0 : col;
             int player = game.getNextPlayer();
-            if (game.play(c, r) && !stopGame)
-            {
+            if (game.play(c, r) && !stopGame) {
                 Button btn = (Button) event.getSource();
                 String xOrO = player == 1 ? "X" : "O";
                 btn.setText(xOrO);
 
-                if (game.isGameOver())
-                {
+                if (game.isGameOver()) {
                     int winner = game.getWinner();
                     displayWinner(winner);
                     stopGame = true;
-                }
-                else
-                {
+                } else {
                     game.setPlayer(game.getNextPlayer());
                     setPlayer();
                 }
             }
-            /*if(game.isGameOver()){
-                Button btn = (Button) event.getSource();
-                String xOrO = player == 1 ? "X" : "O";
-                btn.setText(xOrO);
-            int winner = game.getWinner();
-            displayWinner(winner);
 
-             */
-
-
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        }
+        if(startingScreen.chosenMode==2)
+        {
+            try
+            {
+                Integer row = GridPane.getRowIndex((Node) event.getSource());
+                Integer col = GridPane.getColumnIndex((Node) event.getSource());
+                int r = (row == null) ? 0 : row;
+                int c = (col == null) ? 0 : col;
+                Button btn =(Button) event.getSource();
+                if(game.play(c,r) && !stopGame){
+                    int player=1;
+
+                    String xOrO =  "X";// computers is O;
+                    btn.setText(xOrO);
+
+                    AImove();
+
+                    if (game.isGameOver()) {
+                        int winner = game.getWinner();
+                        displayWinner(winner);
+                        stopGame = true;
+                    }
+                }
+
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+
+    }
+
+    private void AImove()
+    {   Random rand = new Random();
+        int randomRow = rand.nextInt(3);
+        int randomCol = rand.nextInt(3);
+
+        GameBoard gameBoard = new GameBoard();
+        if(gameBoard.board[randomRow][randomCol] == 0) // need to change it to make it work all the time
+        {
+           // here we need to set text programmatically
+            if(gameBoard.board[randomRow][randomCol] == gameBoard.board[0][0])
+            { btn1.setText("O"); }
+            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[0][1])
+                btn2.setText("O");
+            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[0][2])
+                btn3.setText("O");
+            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[1][0])
+                btn4.setText("O");
+           else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[1][1])
+                btn5.setText("O");
+            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[1][2])
+                btn6.setText("O");
+            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[2][0])
+                btn7.setText("O");
+           else  if(gameBoard.board[randomRow][randomCol] == gameBoard.board[2][1])
+                btn8.setText("O");
+            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[2][2])
+                btn9.setText("O");
+
+        }
+        //else
+          // AImove();
+
     }
 
     @FXML
@@ -121,6 +196,9 @@ public class TicTacViewController implements Initializable
             btn.setText("");
         }
         stopGame=false;
+
+        GameBoard gameBoard = new GameBoard();
+        gameBoard.player =1; // its needed for AI
     }
 
 }
