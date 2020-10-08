@@ -5,6 +5,7 @@
  */
 package tictactoe.gui.controller;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import java.net.URL;
@@ -50,6 +51,21 @@ public class TicTacViewController implements Initializable
     @FXML
     private Button btn9;
 
+    public ArrayList<Button> buttons = new ArrayList<>();
+
+    private void addButtons()
+    {
+        buttons.add(btn1);
+        buttons.add(btn2);
+        buttons.add(btn3);
+        buttons.add(btn4);
+        buttons.add(btn5);
+        buttons.add(btn6);
+        buttons.add(btn7);
+        buttons.add(btn8);
+        buttons.add(btn9);
+    }
+
     @FXML
     private Button btnNewGame;
 
@@ -83,7 +99,7 @@ public class TicTacViewController implements Initializable
                     stopGame = true;
                 } else {
                     game.setPlayer(game.getNextPlayer());
-                    setPlayer();
+                    setPlayer(); // it shows a label with a current player
                 }
             }
 
@@ -93,7 +109,6 @@ public class TicTacViewController implements Initializable
         }
         if(startingScreen.chosenMode==2)
         {
-           // lblPlayer.setText("Player vs Computer");
             try
             {
                 Integer row = GridPane.getRowIndex((Node) event.getSource());
@@ -102,18 +117,16 @@ public class TicTacViewController implements Initializable
                 int c = (col == null) ? 0 : col;
                 Button btn =(Button) event.getSource();
                 if(game.play(c,r) && !stopGame){
-                    GameBoard gameBoard = new GameBoard();
-                    gameBoard.player = 1; // I want to ensure
 
                     String xOrO =  "X";// computers is O;
                     btn.setText(xOrO);
-
-                    AImove();
-
                     if (game.isGameOver()) {
                         int winner = game.getWinner();
                         displayWinnerAI(winner); // other method for AI
                         stopGame = true;
+                    }
+                    else{
+                        AImove();
                     }
                 }
 
@@ -124,40 +137,70 @@ public class TicTacViewController implements Initializable
         }
 
     }
-
-    private void AImove()
-    {   Random rand = new Random();
-        int randomRow = rand.nextInt(3);
-        int randomCol = rand.nextInt(3);
+/*private void AImove()
+    {   Random rand = new Random(); // it does pick only once/  i dont understand.
+        int row = rand.nextInt(3);
+        int col = rand.nextInt(3);
 
         GameBoard gameBoard = new GameBoard();
-        if(gameBoard.board[randomRow][randomCol] == 0) // need to change it to make it work all the time
+        if(gameBoard.board[row][col] == 0) // need to change it to make it work all the time
         {
            // here we need to set text programmatically
-            if(gameBoard.board[randomRow][randomCol] == gameBoard.board[0][0])
+            if(gameBoard.board[row][col] == gameBoard.board[0][0])
             { btn1.setText("O"); }
-            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[0][1])
+            else if(gameBoard.board[row][col] == gameBoard.board[0][1])
                 btn2.setText("O");
-            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[0][2])
+            else if(gameBoard.board[row][col] == gameBoard.board[0][2])
                 btn3.setText("O");
-            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[1][0])
+            else if(gameBoard.board[row][col] == gameBoard.board[1][0])
                 btn4.setText("O");
-           else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[1][1])
+           else if(gameBoard.board[row][col] == gameBoard.board[1][1])
                 btn5.setText("O");
-            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[1][2])
+            else if(gameBoard.board[row][col] == gameBoard.board[1][2])
                 btn6.setText("O");
-            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[2][0])
+            else if(gameBoard.board[row][col] == gameBoard.board[2][0])
                 btn7.setText("O");
-           else  if(gameBoard.board[randomRow][randomCol] == gameBoard.board[2][1])
+           else  if(gameBoard.board[row][col] == gameBoard.board[2][1])
                 btn8.setText("O");
-            else if(gameBoard.board[randomRow][randomCol] == gameBoard.board[2][2])
+            else if(gameBoard.board[row][col] == gameBoard.board[2][2])
                 btn9.setText("O");
-
         }
-        //else
-          // AImove();
+        else
+           AImove(); // it should work. go again until we have that field
+
+    } */
+
+
+   /* private void AImove()
+    {   Random rand = new Random(); // it does pick only once/  i dont understand.
+        int btnIndex;
+        btnIndex= rand.nextInt(9);
+
+        if(!buttons.get(btnIndex).getText().equals("X")||!buttons.get(btnIndex).getText().equals("O"))
+        {
+            buttons.get(btnIndex).setText("O");
+        }
+        else
+            AImove(); // it should work. go again until we have that field
 
     }
+
+    /*
+
+     * Kamillas solution below. Mine didnt want to work however i think that it should be
+     */
+
+   private void AImove(){
+
+        int btnIndex;
+        Random random = new Random();
+        do {
+            btnIndex= random.nextInt(9);
+        }while (buttons.get(btnIndex).getText().equals("X")||buttons.get(btnIndex).getText().equals("O"));
+
+        buttons.get(btnIndex).setText("O");
+    }
+
 
     @FXML
     private void handleNewGame(ActionEvent event)
@@ -170,6 +213,7 @@ public class TicTacViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+    addButtons();
         game = new GameBoard();
         StartingScreen startingScreen = new StartingScreen();
         if(startingScreen.chosenMode==1)

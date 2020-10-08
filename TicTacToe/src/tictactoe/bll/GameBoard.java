@@ -1,5 +1,7 @@
 package tictactoe.bll;
 
+import tictactoe.gui.views.StartingScreen;
+
 public class GameBoard implements IGameModel {
     public int[][] board = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     // each smaller array is a row
@@ -11,7 +13,7 @@ public class GameBoard implements IGameModel {
     }
 
     public int getNextPlayer() {
-        if (player == 1) return 2;
+        if (player == 1 ) return 2;
         return 1;
     }
 
@@ -59,7 +61,8 @@ public class GameBoard implements IGameModel {
      * Resets the game to a new game state.
      */
     public void newGame() {
-        setPlayer(getNextPlayer());
+        StartingScreen startingScreen = new StartingScreen();
+       if(startingScreen.chosenMode()==1) setPlayer(getNextPlayer());
         initBoard();
     }
 
