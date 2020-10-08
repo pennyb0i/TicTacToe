@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StartingScreen {
+    @FXML
+    private Label lblPlayer;
    public static int chosenMode =0; // it must be static to be changed within method below
     // gets value 1 for single Player
     //gets value two for multi Player
@@ -33,7 +36,8 @@ public class StartingScreen {
 
     }
     @FXML
-    private void MultiPlayer(ActionEvent event) throws IOException{ chosenMode=2; loadNewScreen();}
+    private void MultiPlayer(ActionEvent event) throws IOException{ chosenMode=2; loadNewScreen();
+    }
 
     private void loadNewScreen() throws IOException
     {

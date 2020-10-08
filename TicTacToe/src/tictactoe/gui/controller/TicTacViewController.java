@@ -61,7 +61,6 @@ public class TicTacViewController implements Initializable
     boolean stopGame =false; // if its true you cant add new signs
     // and then you have to refresh it when making a new game
 
-
     @FXML
     private void handleButtonAction(ActionEvent event)
     { StartingScreen startingScreen = new StartingScreen();
@@ -94,6 +93,7 @@ public class TicTacViewController implements Initializable
         }
         if(startingScreen.chosenMode==2)
         {
+           // lblPlayer.setText("Player vs Computer");
             try
             {
                 Integer row = GridPane.getRowIndex((Node) event.getSource());
@@ -102,7 +102,8 @@ public class TicTacViewController implements Initializable
                 int c = (col == null) ? 0 : col;
                 Button btn =(Button) event.getSource();
                 if(game.play(c,r) && !stopGame){
-                    int player=1;
+                    GameBoard gameBoard = new GameBoard();
+                    gameBoard.player = 1; // I want to ensure
 
                     String xOrO =  "X";// computers is O;
                     btn.setText(xOrO);
@@ -111,7 +112,7 @@ public class TicTacViewController implements Initializable
 
                     if (game.isGameOver()) {
                         int winner = game.getWinner();
-                        displayWinner(winner);
+                        displayWinnerAI(winner); // other method for AI
                         stopGame = true;
                     }
                 }
@@ -170,7 +171,11 @@ public class TicTacViewController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         game = new GameBoard();
-        setPlayer();
+        StartingScreen startingScreen = new StartingScreen();
+        if(startingScreen.chosenMode==1)
+            setPlayer();
+        else if(startingScreen.chosenMode==2)
+            lblPlayer.setText("Player vs Computer");
         stopGame=false;
     }
 
@@ -187,6 +192,18 @@ public class TicTacViewController implements Initializable
         };
         lblPlayer.setText(message);
     }
+
+    private void displayWinnerAI(int winner)
+    {
+        String message = switch (winner) {
+            case -1 -> "It's a draw :-(";
+            case 1 -> "You won!";
+            case 2 -> "Computer won!";
+            default -> "There is some error.";
+        };
+        lblPlayer.setText(message);
+    }
+
 
     private void clearBoard()
     {
