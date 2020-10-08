@@ -33,6 +33,8 @@ public class TicTacViewController implements Initializable
     private Label lblPlayer;
 
     @FXML
+    private Button btn0;
+    @FXML
     private Button btn1;
     @FXML
     private Button btn2;
@@ -48,13 +50,12 @@ public class TicTacViewController implements Initializable
     private Button btn7;
     @FXML
     private Button btn8;
-    @FXML
-    private Button btn9;
 
     public ArrayList<Button> buttons = new ArrayList<>();
 
     private void addButtons()
     {
+        buttons.add(btn0);
         buttons.add(btn1);
         buttons.add(btn2);
         buttons.add(btn3);
@@ -63,7 +64,6 @@ public class TicTacViewController implements Initializable
         buttons.add(btn6);
         buttons.add(btn7);
         buttons.add(btn8);
-        buttons.add(btn9);
     }
 
     @FXML
@@ -171,7 +171,7 @@ public class TicTacViewController implements Initializable
     } */
 
 
-   /* private void AImove()
+    /*private void AImove()
     {   Random rand = new Random(); // it does pick only once/  i dont understand.
         int btnIndex;
         btnIndex= rand.nextInt(9);
@@ -185,10 +185,14 @@ public class TicTacViewController implements Initializable
 
     }
 
-    /*
+     */
+
+    /**
 
      * Kamillas solution below. Mine didnt want to work however i think that it should be
-     */
+     *
+     *
+*/
 
    private void AImove(){
 
@@ -200,6 +204,8 @@ public class TicTacViewController implements Initializable
 
         buttons.get(btnIndex).setText("O");
     }
+
+
 
 
     @FXML
