@@ -1,4 +1,4 @@
-package tictactoe.gui.views;
+package tictactoe.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class StartingScreen {
+public class StartingScreenController {
     @FXML
     private Label lblPlayer;
    public static int chosenMode =0; // it must be static to be changed within method below

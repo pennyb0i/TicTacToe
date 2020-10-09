@@ -1,6 +1,6 @@
 package tictactoe.bll;
 
-import tictactoe.gui.views.StartingScreen;
+import tictactoe.gui.controller.StartingScreenController;
 
 public class GameBoard implements IGameModel {
     public int[][] board = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
@@ -40,9 +40,7 @@ public class GameBoard implements IGameModel {
     }
 
     public boolean isGameOver() {
-        if(checkCol(0) ||checkCol(1) ||checkCol(2)) return true;
-        if(checkRow(0) ||checkRow(1) ||checkRow(2)) return true;
-        if(checkDiagonal()) return true;
+        if(checkCol(0) || checkCol(1) || checkCol(2) || checkRow(0) ||checkRow(1) ||checkRow(2) || checkDiagonal()) return true;
         if(checkDraw()) return true;
         return false;
     }
@@ -53,7 +51,7 @@ public class GameBoard implements IGameModel {
      * @return int id of winner, or -1 if draw.
      */
     public int getWinner() {
-        if(!checkDraw()) return player;
+        if(checkCol(0) || checkCol(1) || checkCol(2) || checkRow(0) ||checkRow(1) ||checkRow(2) || checkDiagonal()) return player;
         return -1;
     }
 
@@ -61,7 +59,7 @@ public class GameBoard implements IGameModel {
      * Resets the game to a new game state.
      */
     public void newGame() {
-        StartingScreen startingScreen = new StartingScreen();
+        StartingScreenController startingScreen = new StartingScreenController();
        if(startingScreen.chosenMode()==1) setPlayer(getNextPlayer());
         initBoard();
     }
@@ -111,6 +109,7 @@ public class GameBoard implements IGameModel {
         if (checkEmptySpots() == 0) return true;
         return false;
     }
+
     private boolean checkPotentialWin(int row,int col) {
         if(checkPotentialRow(row) || checkPotentialCol(col) || checkPotentialDiagonal()) return true;
         return false;

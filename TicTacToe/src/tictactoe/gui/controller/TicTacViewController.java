@@ -13,13 +13,17 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import tictactoe.bll.GameBoard;
 import tictactoe.bll.IGameModel;
-import tictactoe.gui.views.StartingScreen;
+import tictactoe.gui.controller.StartingScreenController;
 
 /**
  *
@@ -27,7 +31,6 @@ import tictactoe.gui.views.StartingScreen;
  */
 public class TicTacViewController implements Initializable
 {
-
 
     @FXML
     private Label lblPlayer;
@@ -51,10 +54,15 @@ public class TicTacViewController implements Initializable
     @FXML
     private Button btn9;
 
-    public ArrayList<Button> buttons = new ArrayList<>();
+    private ArrayList<Button> buttons = new ArrayList();
+    Image blankTileImg = new Image("tictactoe/gui/images/BlankTile.png");
+    Background blankTile = new Background(new BackgroundFill(new ImagePattern(blankTileImg), CornerRadii.EMPTY, Insets.EMPTY));
+    Image XTileImg = new Image("tictactoe/gui/images/XTile.png");
+    Background XTile = new Background(new BackgroundFill(new ImagePattern(XTileImg), CornerRadii.EMPTY, Insets.EMPTY));
+    Image OTileImg = new Image("tictactoe/gui/images/OTile.png");
+    Background OTile = new Background(new BackgroundFill(new ImagePattern(OTileImg), CornerRadii.EMPTY, Insets.EMPTY));
 
-    private void addButtons()
-    {
+    private void addButtons(){
         buttons.add(btn1);
         buttons.add(btn2);
         buttons.add(btn3);
@@ -65,7 +73,6 @@ public class TicTacViewController implements Initializable
         buttons.add(btn8);
         buttons.add(btn9);
     }
-
     @FXML
     private Button btnNewGame;
 
@@ -79,7 +86,7 @@ public class TicTacViewController implements Initializable
 
     @FXML
     private void handleButtonAction(ActionEvent event)
-    { StartingScreen startingScreen = new StartingScreen();
+    { StartingScreenController startingScreen = new StartingScreenController();
 
     if(startingScreen.chosenMode() == 1) {
         try {
@@ -90,9 +97,12 @@ public class TicTacViewController implements Initializable
             int player = game.getNextPlayer();
             if (game.play(c, r) && !stopGame) {
                 Button btn = (Button) event.getSource();
-                String xOrO = player == 1 ? "X" : "O";
-                btn.setText(xOrO);
-
+                if(player == 1) {
+                    btn.setBackground(XTile);
+                }
+                if(player == 2) {
+                    btn.setBackground(OTile);
+                }
                 if (game.isGameOver()) {
                     int winner = game.getWinner();
                     displayWinner(winner);
@@ -116,7 +126,7 @@ public class TicTacViewController implements Initializable
                 int r = (row == null) ? 0 : row;
                 int c = (col == null) ? 0 : col;
                 Button btn =(Button) event.getSource();
-                if(game.play(c,r) && !stopGame){
+                if(game.play(c,r) && !stopGame && game.getNextPlayer() == 1){
 
                     String xOrO =  "X";// computers is O;
                     btn.setText(xOrO);
@@ -126,7 +136,8 @@ public class TicTacViewController implements Initializable
                         stopGame = true;
                     }
                     else{
-                        AImove();
+                        if(game.getNextPlayer() == 2)AImove();
+                        game.setPlayer(game.getNextPlayer());
                     }
                 }
 
@@ -137,68 +148,14 @@ public class TicTacViewController implements Initializable
         }
 
     }
-/*private void AImove()
-    {   Random rand = new Random(); // it does pick only once/  i dont understand.
-        int row = rand.nextInt(3);
-        int col = rand.nextInt(3);
-
-        GameBoard gameBoard = new GameBoard();
-        if(gameBoard.board[row][col] == 0) // need to change it to make it work all the time
-        {
-           // here we need to set text programmatically
-            if(gameBoard.board[row][col] == gameBoard.board[0][0])
-            { btn1.setText("O"); }
-            else if(gameBoard.board[row][col] == gameBoard.board[0][1])
-                btn2.setText("O");
-            else if(gameBoard.board[row][col] == gameBoard.board[0][2])
-                btn3.setText("O");
-            else if(gameBoard.board[row][col] == gameBoard.board[1][0])
-                btn4.setText("O");
-           else if(gameBoard.board[row][col] == gameBoard.board[1][1])
-                btn5.setText("O");
-            else if(gameBoard.board[row][col] == gameBoard.board[1][2])
-                btn6.setText("O");
-            else if(gameBoard.board[row][col] == gameBoard.board[2][0])
-                btn7.setText("O");
-           else  if(gameBoard.board[row][col] == gameBoard.board[2][1])
-                btn8.setText("O");
-            else if(gameBoard.board[row][col] == gameBoard.board[2][2])
-                btn9.setText("O");
-        }
-        else
-           AImove(); // it should work. go again until we have that field
-
-    } */
-
-
-   /* private void AImove()
-    {   Random rand = new Random(); // it does pick only once/  i dont understand.
-        int btnIndex;
-        btnIndex= rand.nextInt(9);
-
-        if(!buttons.get(btnIndex).getText().equals("X")||!buttons.get(btnIndex).getText().equals("O"))
-        {
-            buttons.get(btnIndex).setText("O");
-        }
-        else
-            AImove(); // it should work. go again until we have that field
-
-    }
-
-    /*
-
-     * Kamillas solution below. Mine didnt want to work however i think that it should be
-     */
 
    private void AImove(){
-
         int btnIndex;
         Random random = new Random();
-        do {
-            btnIndex= random.nextInt(9);
-        }while (buttons.get(btnIndex).getText().equals("X")||buttons.get(btnIndex).getText().equals("O"));
-
-        buttons.get(btnIndex).setText("O");
+       do {
+           btnIndex = random.nextInt(9);
+           buttons.get(btnIndex).fire();
+       }while (game.getNextPlayer() == 1);
     }
 
 
@@ -213,12 +170,13 @@ public class TicTacViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-    addButtons();
         game = new GameBoard();
-        StartingScreen startingScreen = new StartingScreen();
+        addButtons();
+        StartingScreenController startingScreen = new StartingScreenController();
+        clearBoard();
         if(startingScreen.chosenMode==1)
             setPlayer();
-        else if(startingScreen.chosenMode==2)
+        if(startingScreen.chosenMode==2)
             lblPlayer.setText("Player vs Computer");
         stopGame=false;
     }
@@ -226,6 +184,12 @@ public class TicTacViewController implements Initializable
     private void setPlayer()
     {
         lblPlayer.setText(TXT_PLAYER + game.getNextPlayer());
+        if(game.getNextPlayer() == 2) {
+            lblPlayer.setTextFill(Color.BLUE);
+        }
+        if(game.getNextPlayer() == 1) {
+            lblPlayer.setTextFill(Color.RED);
+        }
     }
 
     private void displayWinner(int winner)
@@ -234,6 +198,7 @@ public class TicTacViewController implements Initializable
             case -1 -> "It's a draw :-(";
             default -> "Player " + winner + " wins!!!";
         };
+        lblPlayer.setTextFill(Color.WHITE);
         lblPlayer.setText(message);
     }
 
@@ -254,7 +219,7 @@ public class TicTacViewController implements Initializable
         for(Node n : gridPane.getChildren())
         {
             Button btn = (Button) n;
-            btn.setText("");
+            btn.setBackground(blankTile);
         }
         stopGame=false;
 
