@@ -1,12 +1,26 @@
 package tictactoe.bll;
 
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.ImagePattern;
 import tictactoe.gui.controller.StartingScreenController;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class GameBoard implements IGameModel {
     public int[][] board = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     // each smaller array is a row
 
     public int player = 1; // this same for AI
+
+    public GameBoard() {
+    }
 
     public void setPlayer(int id) {
         player = id;
@@ -15,6 +29,8 @@ public class GameBoard implements IGameModel {
     public int currentPlayerInfo(){
         return player;
     }
+
+
 
     public int getNextPlayer() {
         if (player == 1 ) return 2;

@@ -20,7 +20,8 @@ public interface IGameModel {
 
     public int currentPlayerInfo();
 
-    //public void AImove();
+   // public void AImove2();
+  //  public void addButtons();
 
     /**
      * Attempts to let the current player play at the given coordinates. If the

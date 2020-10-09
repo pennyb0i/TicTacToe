@@ -61,7 +61,7 @@ public class TicTacViewController implements Initializable
     Background XTile = new Background(new BackgroundFill(new ImagePattern(XTileImg), CornerRadii.EMPTY, Insets.EMPTY));
     Image OTileImg = new Image("tictactoe/gui/images/OTile.png");
     Background OTile = new Background(new BackgroundFill(new ImagePattern(OTileImg), CornerRadii.EMPTY, Insets.EMPTY));
-    private ArrayList<Button> buttons = new ArrayList();
+   private ArrayList<Button> buttons = new ArrayList();
     private void addButtons(){
         buttons.add(btn0);
         buttons.add(btn1);
@@ -73,6 +73,8 @@ public class TicTacViewController implements Initializable
         buttons.add(btn7);
         buttons.add(btn8); // i think it can be written simplier
     }
+
+
     @FXML
     private Button btnNewGame;
 
@@ -155,12 +157,12 @@ public class TicTacViewController implements Initializable
         }
 
     }
-
-   private void AImove(){
+    private void AImove(){
 
         ArrayList<Button> availableMoves = new ArrayList();
        for(int index =0; index<9; index++) {
-           if (!buttons.get(index).getBackground().equals(OTile) && !buttons.get(index).getBackground().equals(XTile))
+          if (!buttons.get(index).getBackground().equals(OTile) && !buttons.get(index).getBackground().equals(XTile))
+           //if (buttons.get(index).getBackground()==null)
                availableMoves.add(buttons.get(index));
 
        }//availableMoves.get(availableMoves.size()-1).setBackground(OTile);
@@ -169,9 +171,9 @@ public class TicTacViewController implements Initializable
 
       availableMoves.get(randomElement).setBackground(OTile);
 
-
-
     }
+
+
 
 
     @FXML
