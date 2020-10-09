@@ -29,14 +29,14 @@ public class StartingScreenController {
 
     @FXML
     private void SinglePlayer(ActionEvent event) throws IOException { // we need to throw the exception
-        chosenMode=2; // thats the main objective of this method
+        chosenMode=1; // thats the main objective of this method
 
        loadNewScreen();
 
 
     }
     @FXML
-    private void MultiPlayer(ActionEvent event) throws IOException{ chosenMode=1; loadNewScreen(); // i changed the modes on revesre
+    private void MultiPlayer(ActionEvent event) throws IOException{ chosenMode=2; loadNewScreen();
     }
 
     private void loadNewScreen() throws IOException
