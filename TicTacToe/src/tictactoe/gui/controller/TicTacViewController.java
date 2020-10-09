@@ -71,7 +71,7 @@ public class TicTacViewController implements Initializable
         buttons.add(btn5);
         buttons.add(btn6);
         buttons.add(btn7);
-        buttons.add(btn8);
+        buttons.add(btn8); // i think it can be written simplier
     }
     @FXML
     private Button btnNewGame;
@@ -140,7 +140,7 @@ public class TicTacViewController implements Initializable
                     else{
                         //if(game.getNextPlayer() == 2)AImove();
                         //game.setPlayer(game.getNextPlayer());
-                        game.setPlayer(2);
+                       // game.setPlayer(2);
                         AImove();
                     }
                 }
@@ -160,6 +160,8 @@ public class TicTacViewController implements Initializable
            btnIndex = random.nextInt(9);
        }while (buttons.get(btnIndex).getBackground().equals(OTile) ||buttons.get(btnIndex).getBackground().equals(XTile));
        buttons.get(btnIndex).setBackground(OTile);
+
+       // what happens if there is no free space for AI
     }
 
 
@@ -181,7 +183,7 @@ public class TicTacViewController implements Initializable
         if(startingScreen.chosenMode==1)
             setPlayer();
         if(startingScreen.chosenMode==2)
-        {lblPlayer.setText("Player vs Computer");
+        {lblPlayer.setText("Player vs AI");
         game.setPlayer(1); // user has to start the game
         }
         stopGame=false;
