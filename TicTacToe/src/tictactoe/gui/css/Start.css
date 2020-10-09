@@ -9,12 +9,12 @@ and open the template in the editor.
 */
 
 #pane {
-    -fx-background-image: url(../images/Background.png);
+    -fx-background-image: url(../images/StartBackground.png);
     -fx-background-repeat: stretch;   
     -fx-background-position: center;
 }
-#NGbtn {
-    -fx-background-image: url(../images/NewGameButton.png);
+#SPbtn {
+    -fx-background-image: url(../images/StartButton.png);
     -fx-background-repeat: stretch;   
     -fx-background-position: center;
 }

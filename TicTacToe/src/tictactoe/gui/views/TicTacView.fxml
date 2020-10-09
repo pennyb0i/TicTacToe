@@ -39,9 +39,9 @@
       </GridPane>
    </center>
    <top>
-      <Label fx:id="lblPlayer" text="1" BorderPane.alignment="CENTER">
+      <Label fx:id="lblPlayer" text="1" textFill="WHITE" BorderPane.alignment="CENTER">
          <font>
-            <Font size="24.0" />
+            <Font name="Gadugi" size="53.0" />
          </font>
       </Label>
    </top>
