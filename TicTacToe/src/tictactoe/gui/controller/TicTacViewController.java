@@ -144,7 +144,7 @@ public class TicTacViewController implements Initializable
                         AImove();
                     }
                 }
-
+//sejfs
             }catch (Exception e) {
                 System.out.println(e.getMessage());
             }
