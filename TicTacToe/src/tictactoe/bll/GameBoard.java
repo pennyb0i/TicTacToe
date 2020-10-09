@@ -12,6 +12,10 @@ public class GameBoard implements IGameModel {
         player = id;
     }
 
+    public int currentPlayerInfo(){
+        return player;
+    }
+
     public int getNextPlayer() {
         if (player == 1 ) return 2;
         return 1;

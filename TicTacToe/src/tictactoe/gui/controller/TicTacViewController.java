@@ -36,6 +36,8 @@ public class TicTacViewController implements Initializable
     private Label lblPlayer;
 
     @FXML
+    private Button btn0;
+    @FXML
     private Button btn1;
     @FXML
     private Button btn2;
@@ -51,8 +53,6 @@ public class TicTacViewController implements Initializable
     private Button btn7;
     @FXML
     private Button btn8;
-    @FXML
-    private Button btn9;
 
     private ArrayList<Button> buttons = new ArrayList();
     Image blankTileImg = new Image("tictactoe/gui/images/BlankTile.png");
@@ -63,6 +63,7 @@ public class TicTacViewController implements Initializable
     Background OTile = new Background(new BackgroundFill(new ImagePattern(OTileImg), CornerRadii.EMPTY, Insets.EMPTY));
 
     private void addButtons(){
+        buttons.add(btn0);
         buttons.add(btn1);
         buttons.add(btn2);
         buttons.add(btn3);
@@ -71,7 +72,6 @@ public class TicTacViewController implements Initializable
         buttons.add(btn6);
         buttons.add(btn7);
         buttons.add(btn8);
-        buttons.add(btn9);
     }
     @FXML
     private Button btnNewGame;
@@ -126,18 +126,22 @@ public class TicTacViewController implements Initializable
                 int r = (row == null) ? 0 : row;
                 int c = (col == null) ? 0 : col;
                 Button btn =(Button) event.getSource();
-                if(game.play(c,r) && !stopGame && game.getNextPlayer() == 1){
-
-                    String xOrO =  "X";// computers is O;
-                    btn.setText(xOrO);
+              // if(game.play(c,r) && !stopGame && game.currentPlayerInfo() == 1){
+               if(game.play(c,r) && !stopGame ){
+                   game.setPlayer(1);
+                    //String xOrO =  "X";// computers is O;
+                    //btn.setText(xOrO);
+                   btn.setBackground(XTile);
                     if (game.isGameOver()) {
                         int winner = game.getWinner();
                         displayWinnerAI(winner); // other method for AI
                         stopGame = true;
                     }
                     else{
-                        if(game.getNextPlayer() == 2)AImove();
-                        game.setPlayer(game.getNextPlayer());
+                        //if(game.getNextPlayer() == 2)AImove();
+                        //game.setPlayer(game.getNextPlayer());
+                        game.setPlayer(2);
+                        AImove();
                     }
                 }
 
@@ -154,9 +158,8 @@ public class TicTacViewController implements Initializable
         Random random = new Random();
        do {
            btnIndex = random.nextInt(9);
-
-       }while (game.getNextPlayer() != 1);
-       buttons.get(btnIndex).fire();
+       }while (buttons.get(btnIndex).getBackground().equals(OTile) ||buttons.get(btnIndex).getBackground().equals(XTile));
+       buttons.get(btnIndex).setBackground(OTile);
     }
 
 
@@ -178,7 +181,9 @@ public class TicTacViewController implements Initializable
         if(startingScreen.chosenMode==1)
             setPlayer();
         if(startingScreen.chosenMode==2)
-            lblPlayer.setText("Player vs Computer");
+        {lblPlayer.setText("Player vs Computer");
+        game.setPlayer(1); // user has to start the game
+        }
         stopGame=false;
     }
 
