@@ -154,8 +154,9 @@ public class TicTacViewController implements Initializable
         Random random = new Random();
        do {
            btnIndex = random.nextInt(9);
-           buttons.get(btnIndex).fire();
-       }while (game.getNextPlayer() == 1);
+
+       }while (game.getNextPlayer() != 1);
+       buttons.get(btnIndex).fire();
     }
 
 
