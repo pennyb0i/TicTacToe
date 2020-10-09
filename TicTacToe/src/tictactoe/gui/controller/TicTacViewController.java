@@ -54,14 +54,14 @@ public class TicTacViewController implements Initializable
     @FXML
     private Button btn8;
 
-    private ArrayList<Button> buttons = new ArrayList();
+
     Image blankTileImg = new Image("tictactoe/gui/images/BlankTile.png");
     Background blankTile = new Background(new BackgroundFill(new ImagePattern(blankTileImg), CornerRadii.EMPTY, Insets.EMPTY));
     Image XTileImg = new Image("tictactoe/gui/images/XTile.png");
     Background XTile = new Background(new BackgroundFill(new ImagePattern(XTileImg), CornerRadii.EMPTY, Insets.EMPTY));
     Image OTileImg = new Image("tictactoe/gui/images/OTile.png");
     Background OTile = new Background(new BackgroundFill(new ImagePattern(OTileImg), CornerRadii.EMPTY, Insets.EMPTY));
-
+    private ArrayList<Button> buttons = new ArrayList();
     private void addButtons(){
         buttons.add(btn0);
         buttons.add(btn1);
@@ -136,6 +136,9 @@ public class TicTacViewController implements Initializable
                         int winner = game.getWinner();
                         displayWinnerAI(winner); // other method for AI
                         stopGame = true;
+
+                        // I don't know how to display info that
+                        // computer won or that there is a draw
                     }
                     else{
                         //if(game.getNextPlayer() == 2)AImove();
@@ -154,14 +157,20 @@ public class TicTacViewController implements Initializable
     }
 
    private void AImove(){
-        int btnIndex;
-        Random random = new Random();
-       do {
-           btnIndex = random.nextInt(9);
-       }while (buttons.get(btnIndex).getBackground().equals(OTile) ||buttons.get(btnIndex).getBackground().equals(XTile));
-       buttons.get(btnIndex).setBackground(OTile);
 
-       // what happens if there is no free space for AI
+        ArrayList<Button> availableMoves = new ArrayList();
+       for(int index =0; index<9; index++) {
+           if (!buttons.get(index).getBackground().equals(OTile) && !buttons.get(index).getBackground().equals(XTile))
+               availableMoves.add(buttons.get(index));
+
+       }//availableMoves.get(availableMoves.size()-1).setBackground(OTile);
+       Random random = new Random();
+      int randomElement = random.nextInt(availableMoves.size()-1);
+
+      availableMoves.get(randomElement).setBackground(OTile);
+
+
+
     }
 
 
